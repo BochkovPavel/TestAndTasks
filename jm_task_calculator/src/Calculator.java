@@ -59,7 +59,7 @@ public class Calculator {
 
     private String arabicToRoman(int number) {
         if ((number <= 0) || (number > 4000)) {
-            throw new IllegalArgumentException(number + " Не в диапазоне (0,4000], конвертировать не удалось");
+            throw new IllegalArgumentException(number + " Не в диапазоне (0,4000), конвертировать не удалось");
         }
 
         List<RomanNumeral> romanNumerals = RomanNumeral.getReverseSortedValues();
