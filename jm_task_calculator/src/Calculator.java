@@ -1,11 +1,38 @@
 import java.util.List;
 
 public class Calculator {
+    private String[] inputArr;
 
-    public void Calculate (String input){
+    public String Calculate (String input, boolean isArabic) throws BigNumbersException, InvalidInputException{
+        inputArr = input.split("\\s");
+        int x,y,z;
+        if (inputArr.length == 3){
+            if (!isArabic){
+                x = romanToArabic(inputArr[0]);
+                y = romanToArabic(inputArr[2]);
+            } else {
+                x = Integer.parseInt(inputArr[0]);
+                y = Integer.parseInt(inputArr[2]);
+            } // end if isArabic
+            if (x > 10 || y > 10){
+                throw new BigNumbersException("Введены числа больше 10.");
+            } // end if 10
+            switch (inputArr[1]){
+                case "+" : z = x + y;break;
+                case "-" : z = x - y;break;
+                case "*" : z = x * y;break;
+                case "/" : z = x / y;break;
+                default: throw new InvalidInputException("Введены некоректные данные, вычисление произвести нельзя.");
+            } // end switch
+            if (!isArabic){
+                return arabicToRoman(z);
+            } else {
+                return "" + z;
+            } // end if isArabic 2
+        } else throw new InvalidInputException("Введены некоректные данные, вычисление произвести нельзя.");
+    }// end Calculate
 
-    }
-    public static int romanToArabic(String input) {
+    private int romanToArabic(String input) {
         String romanNumeral = input.toUpperCase();
         int result = 0;
 
@@ -24,14 +51,15 @@ public class Calculator {
         }
 
         if (romanNumeral.length() > 0) {
-            throw new IllegalArgumentException(input + " cannot be converted to a Roman Numeral");
+            throw new IllegalArgumentException(input + " Конвертировать в арабские числа не удалось.");
         }
 
         return result;
-    }
-    public static String arabicToRoman(int number) {
+    }// end romanToArabic
+
+    private String arabicToRoman(int number) {
         if ((number <= 0) || (number > 4000)) {
-            throw new IllegalArgumentException(number + " is not in range (0,4000]");
+            throw new IllegalArgumentException(number + " Не в диапазоне (0,4000], конвертировать не удалось");
         }
 
         List<RomanNumeral> romanNumerals = RomanNumeral.getReverseSortedValues();
@@ -48,7 +76,7 @@ public class Calculator {
                 i++;
             }
         }
-
         return sb.toString();
-    }
+    }// end arabicToRoman
 }
+

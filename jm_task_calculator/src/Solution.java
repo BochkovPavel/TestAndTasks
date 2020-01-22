@@ -7,38 +7,38 @@ public class Solution {
     public static void main(String[] args) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Calculator calc = new Calculator();
-        String str = "";
+        String input = "";
         while (true){
-
+            System.out.println("Введите выражение или наберите команду \"exit\" для выхода.");
             try {
-                str = reader.readLine();
-                if (str.equals("exit")){
+                input = reader.readLine();
+                if (input.equals("exit")){
                     System.out.println("Введена команда \"exit\"!");
                     break;
-                //}
-                //if (Pattern.matches("^\\D+\\s// [\\+\\-\\/\\*]{1}\\s\\D+", str)){
-                   // strList = str.split("\\s");
-
-                  //  System.out.println(romanToArabic(strList[0]) + strList[1] + romanToArabic(strList[2])
-                  //          + arabicToRoman(romanToArabic(strList[0])) + arabicToRoman(romanToArabic(strList[0])));
-                } else  if (Pattern.matches("^\\d+\\s[\\+\\-\\/\\*]{1}\\s\\d+", str) ||
-                        Pattern.matches("^[IVXLCDM]+\\s[\\+\\-\\/\\*]{1}\\s[IVXLCDM]+", str.toUpperCase())){
-                    System.out.println(str + "pattern");
-                } else System.out.println("Введите корректно арифметическую операцию или введите команду \"exit\" для завершения операций.");
-            } catch (IOException e) {
-                System.out.println("Введена пустая строка!");
-
+                } else  if (Pattern.matches("^[1-9]0?\\s[\\+\\-\\/\\*]{1}\\s[1-9]0?", input)){
+                    System.out.println(calc.Calculate(input, true));
+                } else  if (Pattern.matches("^[IVX]+\\s[\\+\\-\\/\\*]{1}\\s[IVX]+", input.toUpperCase())){
+                    System.out.println(calc.Calculate(input, false));
+                } else {
+                    throw new InvalidInputException("Введены некоректные данные, вычисление произвести нельзя.");
+                } // end if input
+            } catch (InvalidInputException e) {
+                //System.out.println(e.getMessage());
                 e.printStackTrace();
                 break;
-            } // end try
+            } catch (BigNumbersException e) {
+                e.printStackTrace();
+                break;
+            }catch (IOException e) {
+                e.printStackTrace();
+                break;
+            }// end try
 
         } // end while
         try {
             reader.close();
         } catch (IOException ex) {
             ex.printStackTrace();
-        }
+        } //end try
     } // end main
-
-
 }
