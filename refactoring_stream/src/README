@@ -1,0 +1,67 @@
+Рефакторинг с применением Stream API
+Необходимо произвести рефакторинг кода класса Finder с применением stream api.
+
+MembersGroup.java
+package ru.esphere.school.data;
+import java.util.List;
+public class MembersGroup {
+ private final String groupName;
+ private final List<Member> members;
+ public MembersGroup(String groupName, List<Member> members) {
+    this.groupName = groupName;
+    this.members = members;
+ }
+ public String getGroupName() {
+    return groupName;
+ }
+ public List<Member> getMembers() {
+    return members;
+ }
+}
+_______________________________________________________________________
+Member.java
+package ru.esphere.school.data;
+public class Member {
+ private final String name;
+ private final Integer age;
+ public Member(String name, Integer age) {
+    this.name = name;
+    this.age = age;
+ }
+ public String getName() {
+     return name;
+ }
+ public Integer getAge() {
+     return age;
+ }
+}
+________________________________________________________________________________
+Finder.java
+package ru.esphere.school.service;
+import ru.esphere.school.data.Member;
+import ru.esphere.school.data.MembersGroup;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+public class Finder {
+ /**
+ * Поиск групп людей старше определенного возраста.
+ *
+ * @param groups группы
+ * @param targetAge возраст для поиска
+ * @return список имен групп из списка групп старше возраста targetAge
+ */
+ public Set<String> findOldMembers(List<MembersGroup> groups, int targetAge) {
+    Set<String> groupsNames = new HashSet<>();
+    for (MembersGroup membersGroup : groups) {
+        for (Member member : membersGroup.getMembers()) {
+            if (member.getAge() > targetAge) {
+            String name = member.getName();
+            groupsNames.add(name);
+            }
+        }
+    }
+ }
+}
+ return groupsNames;
+ * доработки кода приветствуются - но при этом не забывайте добавлять комментарии
